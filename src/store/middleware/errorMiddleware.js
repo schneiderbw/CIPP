@@ -7,10 +7,20 @@ export const errorMiddleware =
   ({ dispatch }) =>
   (next) =>
   (action) => {
-    if (isRejectedWithValue(action) && !action.error?.hideToastError) {
+    if (
+      isRejectedWithValue(action) &&
+      !action.error?.hideToastError &&
+      action.payload.message !== 'canceled'
+    ) {
       console.error(action)
-      const message = action.payload?.data || 'A generic error has occurred.'
-
+      if (action.payload.data === 'Backend call failure') {
+        action.payload.data =
+          'The Azure Function has taken too long to respond. Try selecting a different report or a single tenant instead'
+      }
+      let message = action.payload?.data || 'A generic error has occurred.'
+      if (message.length > 240) {
+        message = message.substring(0, 240) + '...'
+      }
       const toastError = action.payload
 
       dispatch(
