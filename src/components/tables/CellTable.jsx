@@ -20,30 +20,25 @@ export default function cellTable(
     columnProp = column
   }
 
-  if (
-    !Array.isArray(columnProp) &&
-    typeof columnProp === 'object' &&
-    columnProp !== undefined &&
-    columnProp !== null
-  ) {
+  if (!Array.isArray(columnProp) && typeof columnProp === 'object') {
     columnProp = Object.keys(columnProp).map((key) => {
       return {
-        [key]: columnProp[key],
+        Key: key,
+        Value: columnProp[key],
       }
     })
-  }
-
-  if (Array.isArray(columnProp) && typeof columnProp[0] !== 'object') {
-    columnProp = columnProp.map((row) => {
-      return {
-        Value: row,
-      }
-    })
+  } else {
+    if (Array.isArray(columnProp) && typeof columnProp[0] !== 'object') {
+      columnProp = columnProp.map((row) => {
+        return {
+          Value: row,
+        }
+      })
+    }
   }
 
   const handleTable = ({ columnProp }) => {
     const QueryColumns = []
-
     const columns = Object.keys(columnProp[0]).map((key) => {
       QueryColumns.push({
         name: key,

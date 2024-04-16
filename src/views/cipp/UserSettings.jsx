@@ -216,14 +216,14 @@ const UserSettings = () => {
                             multi={true}
                             values={_nav
                               .reduce((acc, val) => acc.concat(val.items), [])
-                              .map(
-                                (item) => (
-                                  console.log(item),
-                                  {
-                                    name: item?.name,
-                                    value: { to: item?.to, name: item?.name },
-                                  }
-                                ),
+                              //only map if 'name' property is not null
+                              .filter((item) => item?.name)
+                              .map((item) =>
+                                // console.log(item),
+                                ({
+                                  name: item?.name,
+                                  value: { to: item?.to, name: item?.name },
+                                }),
                               )}
                             allowCreate={false}
                             refreshFunction={() =>
