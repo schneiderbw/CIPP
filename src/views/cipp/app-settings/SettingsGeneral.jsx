@@ -253,7 +253,8 @@ export function SettingsGeneral() {
                     </CCallout>
                   </CCol>
                   <CCol>
-                    {permissionsResult.data.Results?.ErrorMessages?.length >= 1 && (
+                    {(permissionsResult.data.Results?.ErrorMessages?.length > 0 ||
+                      permissionsResult.data.Results?.MissingPermissions.length > 0) && (
                       <CCallout color="danger">
                         <>
                           {permissionsResult.data.Results?.ErrorMessages?.map((m, idx) => (
